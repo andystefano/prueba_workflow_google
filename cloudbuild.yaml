@@ -2,38 +2,21 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 steps:
-  - name: 'gcr.io/cloud-builders/git'
-    id: get-commit-info
-    entrypoint: bash
-    args:
-      - -c
-      - |
-        BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-        COMMIT_MSG=$(git log -1 --pretty=%B)
-
-        echo "BRANCH_NAME=$BRANCH_NAME" >> /workspace/env.sh
-        echo "COMMIT_MSG=$COMMIT_MSG" >> /workspace/env.sh
-
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: bash
     args:
       - -c
       - |
-        source /workspace/env.sh
+        if [[ "$BRANCH_NAME" == "develop" ]] || [[ "$COMMIT_SHA" == "deploid_develop" ]]; then
+          echo "Rama es develop o commit es 'deploid_develop'. Ejecutando despliegue..."
 
-        echo "Rama actual: $BRANCH_NAME"
-        echo "Mensaje del commit: $COMMIT_MSG"
-
-        if [[ "$BRANCH_NAME" == "develop" ]] || [[ "$COMMIT_MSG" == *"[deploid_develop]"* ]]; then
-          echo "✅ Rama es 'develop' o commit contiene '[deploid_develop]'. Ejecutando despliegue..."
-
-          echo "🧹 Limpiando carpeta remota..."
+          echo "Limpiando carpeta remota..."
           gcloud compute ssh cloud-build \
             --zone=us-central1-f \
             --command="rm -rf /var/www/html/*"
 
-          echo "📦 Copiando nuevo código..."
+          echo "Copiando nuevo código..."
           gcloud compute scp --recurse * cloud-build:/var/www/html --zone=us-central1-f
         else
-          echo "⏭ No es la rama 'develop' ni el commit contiene '[deploid_develop]'. Saltando pasos."
+          echo "No es la rama develop ni el commit es 'deploid_develop'. Saltando pasos."
         fi
