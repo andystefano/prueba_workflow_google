@@ -1,0 +1,34 @@
+name: Notificar Deploid
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  notify-slack:
+    runs-on: ubuntu-latest
+    environment: DEVELOP
+    if: ${{ !contains(github.event.head_commit.message, 'Enviado a deploy') }}
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Modificar algo (dummy)
+        run: |
+          echo "Deploy: $(date)" >> deploy.log
+
+      - name: Commit cambios
+        run: |
+          git add deploy.log
+          git commit -m "Enviado a deploy" || echo "No hay cambios para commitear"
+
+      - name: Push cambios
+        run: |
+          git push origin develop
