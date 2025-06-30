@@ -19,15 +19,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Modificar algo (dummy)
+      - name: Crear tag
         run: |
-          echo "Deploy: $(date)" >> deploy.log
+          # Obtener la fecha y hora actual
+          DATETIME=$(date +"%Y%m%d-%H%M%S")
+          # Obtener la rama de origen (por defecto main)
+          BRANCH=${GITHUB_REF_NAME:-main}
+          # Crear el nombre del tag
+          TAG_NAME="dev-${DATETIME}-${BRANCH}"
+          # Crear el tag
+          git tag $TAG_NAME
+          echo "Tag creado: $TAG_NAME"
 
-      - name: Commit cambios
+      - name: Push tag
         run: |
-          git add deploy.log
-          git commit -m "Enviado a deploy" || echo "No hay cambios para commitear"
-
-      - name: Push cambios
-        run: |
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} --tags

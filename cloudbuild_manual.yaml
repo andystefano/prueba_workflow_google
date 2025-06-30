@@ -1,0 +1,24 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+
+        echo "SHA del commit: $COMMIT_SHA"
+        echo "Nombre de la rama: $BRANCH_NAME"
+
+
+          echo "Deploid tag deploid dev ::: Ejecutando despliegue..."
+
+          echo "Limpiando carpeta remota..."
+          gcloud compute ssh cloud-build \
+            --zone=us-central1-f \
+            --command="rm -rf /var/www/html/*"
+
+          echo "Copiando nuevo código..."
+          gcloud compute scp --recurse * cloud-build:/var/www/html --zone=us-central1-f
+
