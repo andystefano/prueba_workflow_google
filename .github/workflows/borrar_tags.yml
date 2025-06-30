@@ -7,17 +7,19 @@ jobs:
   delete-dev-tags:
     runs-on: ubuntu-latest
     permissions:
-        contents: write
+      contents: write
+
     steps:
       - name: Checkout del repositorio
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Necesario para obtener todos los tags
+          fetch-depth: 0
+          fetch-tags: true
 
-      - name: Configurar Git
+      - name: Mostrar tags dev-*
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          echo "Tags encontrados con patrón dev-*:"
+          git tag -l "dev-*"
 
       - name: Eliminar tags dev-* localmente
         run: |
@@ -25,4 +27,7 @@ jobs:
 
       - name: Eliminar tags dev-* en remoto
         run: |
-          git tag -l "dev-*" | xargs -r -I {} git push origin :refs/tags/{}
+          for tag in $(git tag -l "dev-*"); do
+            echo "Eliminando tag remoto: $tag"
+            git push origin ":refs/tags/$tag"
+          done
