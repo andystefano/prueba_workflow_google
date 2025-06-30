@@ -26,7 +26,7 @@ jobs:
       - name: Commit cambios
         run: |
           git add deploy.log
-          git commit -m "Enviado a deploy" || echo "No hay cambios para commitear"
+          git commit -m "[deploid_develop]" || echo "No hay cambios para commitear"
 
       - name: Push cambios
         run: |
