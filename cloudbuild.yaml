@@ -10,8 +10,10 @@ steps:
 
         echo "SHA del commit: $COMMIT_SHA"
         echo "Nombre de la rama: $BRANCH_NAME"
-        echo "Mensaj del commit: $_COMMIT_MSG"
-     
+
+        echo "SHA del commit: ${_COMMIT_SHA}"
+        echo "Nombre de la rama: ${_BRANCH_NAME}"
+        echo "Mensaje del commit: ${_COMMIT_MSG}"
 
 
         if [[ "$BRANCH_NAME" == "develop" ]] || [[ "$COMMIT_SHA" == "deploid_develop" ]]; then
