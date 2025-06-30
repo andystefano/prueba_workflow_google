@@ -13,4 +13,4 @@ steps:
           --command="rm -rf /var/www/html/*"
 
         echo "Copiando nuevo código..."
-        gcloud compute scp --recurse . cloud-build:/var/www/html --zone=us-central1-f
+        gcloud compute scp --recurse * nombre-vm:/var/www/html --zone=us-central1-f
