@@ -10,8 +10,7 @@ steps:
 
         echo "SHA del commit: $COMMIT_SHA"
         echo "Nombre de la rama: $BRANCH_NAME"
-        COMMIT_MSG=$(git log -1 $COMMIT_SHA --pretty=%B)
-        echo "Mensaje del commit: $COMMIT_MSG"
+      
 
 
         if [[ "$BRANCH_NAME" == "develop" ]] || [[ "$COMMIT_SHA" == "deploid_develop" ]]; then
