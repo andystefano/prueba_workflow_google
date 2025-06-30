@@ -1,15 +1,12 @@
 name: Notificar Deploid
 
 on:
-  push:
-    branches:
-      - develop
+  workflow_dispatch:
 
 jobs:
   notify-slack:
     runs-on: ubuntu-latest
     environment: DEVELOP
-    if: ${{ !contains(github.event.head_commit.message, 'Enviado a deploy') }}
     
     steps:
       - name: Checkout código
