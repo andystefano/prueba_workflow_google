@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        echo "Limpiando carpeta remota..."
+        gcloud compute ssh nombre-vm \
+          --zone=zona-vm \
+          --command="rm -rf /var/www/html/*"
+
+        echo "Copiando nuevo código..."
+        gcloud compute scp --recurse . nombre-vm:/var/www/html --zone=zona-vm
