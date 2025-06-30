@@ -1,4 +1,4 @@
-name: Notificar Deploid
+name: Deploid Manual
 
 on:
   workflow_dispatch:
@@ -25,8 +25,10 @@ jobs:
           DATETIME=$(date +"%Y%m%d-%H%M%S")
           # Obtener la rama de origen (por defecto main)
           BRANCH=${GITHUB_REF_NAME:-main}
+          # Obtener el nombre del usuario que inició la action
+          USER=${GITHUB_ACTOR:-unknown}
           # Crear el nombre del tag
-          TAG_NAME="dev-${DATETIME}-${BRANCH}"
+          TAG_NAME="dev-${DATETIME}-${BRANCH}-${USER}"
           # Crear el tag
           git tag $TAG_NAME
           echo "Tag creado: $TAG_NAME"
