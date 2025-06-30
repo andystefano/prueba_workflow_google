@@ -1,0 +1,27 @@
+name: Borrar tags dev-*
+
+on:
+  workflow_dispatch:
+
+jobs:
+  delete-dev-tags:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Necesario para obtener todos los tags
+
+      - name: Configurar Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Eliminar tags dev-* localmente
+        run: |
+          git tag -l "dev-*" | xargs -r git tag -d
+
+      - name: Eliminar tags dev-* en remoto
+        run: |
+          git tag -l "dev-*" | xargs -r -I {} git push origin :refs/tags/{}
