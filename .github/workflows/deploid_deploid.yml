@@ -1,4 +1,4 @@
-name: Deploid Manual
+name: Notificar Deploid
 
 on:
   workflow_dispatch:
@@ -35,4 +35,4 @@ jobs:
 
       - name: Push tag
         run: |
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} --tags
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} --tags 
