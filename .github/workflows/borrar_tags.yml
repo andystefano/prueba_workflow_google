@@ -2,7 +2,8 @@ name: Borrar tags dev-*
 
 on:
   workflow_dispatch:
-
+  schedule:
+      - cron: '0 23 * * 1-5'  # Lunes a viernes a las 19:00 hora Chile (UTC-4)
 jobs:
   delete-dev-tags:
     runs-on: ubuntu-latest
