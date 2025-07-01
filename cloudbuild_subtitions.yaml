@@ -1,7 +1,7 @@
 options:
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  _BRANCH_NAME: ${BRANCH_NAME}  
+  _BRANCH_NAME: "develop"  
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: bash
