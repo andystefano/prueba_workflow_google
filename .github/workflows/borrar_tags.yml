@@ -1,0 +1,33 @@
+name: Borrar tags dev-*
+
+on:
+  workflow_dispatch:
+
+jobs:
+  delete-dev-tags:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Mostrar tags dev-*
+        run: |
+          echo "Tags encontrados con patrón dev-*:"
+          git tag -l "dev-*"
+
+      - name: Eliminar tags dev-* localmente
+        run: |
+          git tag -l "dev-*" | xargs -r git tag -d
+
+      - name: Eliminar tags dev-* en remoto
+        run: |
+          for tag in $(git tag -l "dev-*"); do
+            echo "Eliminando tag remoto: $tag"
+            git push origin ":refs/tags/$tag"
+          done
