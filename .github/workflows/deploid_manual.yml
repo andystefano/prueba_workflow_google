@@ -15,7 +15,7 @@ on:
 jobs:
   deploid-manual:
     runs-on: ubuntu-latest
-    run-name: "Deploy a ${{ github.event.inputs.deployment_target }} por ${{ github.actor }}"
+    name: "Deploy a ${{ github.event.inputs.deployment_target }} por ${{ github.actor }}"
     permissions:
       contents: write
     
