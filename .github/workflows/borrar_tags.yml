@@ -1,4 +1,4 @@
-name: Borrar tags dev-*
+name: 🗑️ Borrar tags Deploids
 
 on:
   workflow_dispatch:
