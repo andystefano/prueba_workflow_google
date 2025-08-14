@@ -19,6 +19,13 @@ jobs:
       - name: Setup Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
+      - name: Verificar autenticación
+        run: |
+          echo "=== VERIFICACIÓN DE CUENTA ==="
+          gcloud auth list
+          gcloud config list
+          echo "================================"
+
       - name: Ejecutar Cloud Build
         run: |
           gcloud builds submit \
