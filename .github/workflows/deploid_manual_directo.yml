@@ -23,4 +23,5 @@ jobs:
         run: |
           gcloud builds submit \
             --config=cloudbuild_manual_directo.yaml \
+            --no-source \
             --substitutions=_GITHUB_USER=${{ github.actor }}
