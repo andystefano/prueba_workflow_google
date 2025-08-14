@@ -1,6 +1,5 @@
 options:
   logging: CLOUD_LOGGING_ONLY
-  region: 'us-central1'
 
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
