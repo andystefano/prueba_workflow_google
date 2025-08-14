@@ -1,0 +1,22 @@
+name: Deploy Manual directo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configurar gcloud
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.GCP_SECRET_CLOUD_BUILD_KEY }}
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+
+      - name: Ejecutar Cloud Build
+        run: |
+          gcloud builds submit \
+            --config=deploid_manual_directo.yaml \
+            --substitutions=_GITHUB_USER=${{ github.actor }}
