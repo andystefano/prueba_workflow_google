@@ -24,4 +24,4 @@ jobs:
           gcloud builds submit \
             --config=cloudbuild_manual_directo.yaml \
             --no-source \
-            --service-account=cloud-build-editor@nice-dispatcher-463218-i1.iam.gserviceaccount.com
+            --service-account=projects/nice-dispatcher-463218-i1/serviceAccounts/cloud-build-editor@nice-dispatcher-463218-i1.iam.gserviceaccount.com
