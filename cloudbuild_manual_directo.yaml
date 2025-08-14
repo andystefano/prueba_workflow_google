@@ -8,7 +8,6 @@ steps:
       - -c
       - |
         echo "=== INFORMACIÓN DEL BUILD ==="
-        echo "Usuario que solicitó el build: $_GITHUB_USER"
         echo "SHA del commit: $COMMIT_SHA"
         echo "Nombre de la rama: $BRANCH_NAME"
         echo "================================"
