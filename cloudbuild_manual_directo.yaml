@@ -7,18 +7,19 @@ steps:
     args:
       - -c
       - |
-
+        echo "=== INFORMACIÓN DEL BUILD ==="
+        echo "Usuario que solicitó el build: $_GITHUB_USER"
         echo "SHA del commit: $COMMIT_SHA"
         echo "Nombre de la rama: $BRANCH_NAME"
+        echo "================================"
 
+        echo "Deploid tag deploid dev ::: Ejecutando despliegue..."
 
-          echo "Deploid tag deploid dev ::: Ejecutando despliegue..."
+        echo "Limpiando carpeta remota..."
+        gcloud compute ssh cloud-build \
+          --zone=us-central1-f \
+          --command="rm -rf /var/www/html/*"
 
-          echo "Limpiando carpeta remota..."
-          gcloud compute ssh cloud-build \
-            --zone=us-central1-f \
-            --command="rm -rf /var/www/html/*"
-
-          echo "Copiando nuevo código..."
-          gcloud compute scp --recurse * cloud-build:/var/www/html --zone=us-central1-f
+        echo "Copiando nuevo código..."
+        gcloud compute scp --recurse * cloud-build:/var/www/html --zone=us-central1-f
 
