@@ -1,3 +1,5 @@
+serviceAccount: 'projects/nice-dispatcher-463218-i1/serviceAccounts/cloud-build-editor@nice-dispatcher-463218-i1.iam.gserviceaccount.com'
+
 options:
   logging: CLOUD_LOGGING_ONLY
 
