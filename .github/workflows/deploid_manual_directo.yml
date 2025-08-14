@@ -26,9 +26,17 @@ jobs:
           gcloud config list
           echo "================================"
 
+      - name: Configurar región para Cloud Build
+        run: |
+          echo "=== CONFIGURANDO REGIÓN ==="
+          gcloud config unset compute/zone || true
+          gcloud config set builds/region global
+          gcloud config list
+          echo "================================"
+
       - name: Ejecutar Cloud Build
         run: |
           gcloud builds submit \
             --config=cloudbuild_manual_directo.yaml \
-            --region=us-central1 \
+            --region=global \
             --no-source 
