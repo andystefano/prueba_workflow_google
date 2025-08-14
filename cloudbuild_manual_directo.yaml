@@ -14,11 +14,16 @@ steps:
 
         echo "Deploid tag deploid dev ::: Ejecutando despliegue..."
 
+        echo "Configurando gcloud para operaciones de compute..."
+        gcloud config unset compute/zone || true
+        gcloud config unset compute/region || true
+        
         echo "Limpiando carpeta remota..."
         gcloud compute ssh cloud-build \
-          --zone=us-central1-f \
+          --zone="us-central1-f" \
           --command="rm -rf /var/www/html/*"
 
         echo "Copiando nuevo código..."
-        gcloud compute scp --recurse * cloud-build:/var/www/html --zone=us-central1-f
+        gcloud compute scp --recurse * cloud-build:/var/www/html \
+          --zone="us-central1-f"
 
