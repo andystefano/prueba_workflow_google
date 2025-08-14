@@ -1,12 +1,21 @@
-name: Deploid Manual
+name: 🚀 Deploid Manual
 
 on:
   workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: 'Servidor destino'
+        required: true
+        default: 'DES'
+        type: choice
+        options:
+        - DES
+        - DEVQA
 
 jobs:
-  notify-slack:
+  deploid-manual:
     runs-on: ubuntu-latest
-    environment: DEVELOP
+    name: "Deploy a ${{ github.event.inputs.deployment_target }} por ${{ github.actor }}"
     permissions:
       contents: write
     
@@ -27,8 +36,14 @@ jobs:
           BRANCH=${GITHUB_REF_NAME:-main}
           # Obtener el nombre del usuario que inició la action
           USER=${GITHUB_ACTOR:-unknown}
+          # Determinar el prefijo según el servidor destino
+          if [ "${{ github.event.inputs.deployment_target }}" == "DES" ]; then
+            PREFIX="dev"
+          else
+            PREFIX="devqa"
+          fi
           # Crear el nombre del tag
-          TAG_NAME="dev-${DATETIME}-${BRANCH}-${USER}"
+          TAG_NAME="${PREFIX}${BRANCH}-${USER}-${DATETIME}"
           # Crear el tag
           git tag $TAG_NAME
           echo "Tag creado: $TAG_NAME"
