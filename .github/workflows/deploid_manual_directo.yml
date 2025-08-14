@@ -1,4 +1,4 @@
-name: Deploy Manual directo
+name: Deploy Manual Directo
 
 on:
   workflow_dispatch:
