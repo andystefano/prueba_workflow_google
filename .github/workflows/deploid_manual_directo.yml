@@ -6,6 +6,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: DEVELOP
     steps:
       - uses: actions/checkout@v3
 
@@ -18,5 +19,5 @@ jobs:
       - name: Ejecutar Cloud Build
         run: |
           gcloud builds submit \
-            --config=deploid_manual_directo.yaml \
+            --config=cloudbuild_manual_directo.yaml \
             --substitutions=_GITHUB_USER=${{ github.actor }}
