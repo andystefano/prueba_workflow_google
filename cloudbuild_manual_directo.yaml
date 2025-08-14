@@ -16,9 +16,9 @@ steps:
 
         echo "Limpiando carpeta remota..."
         gcloud compute ssh cloud-build \
-          --zone=us-central1 \
+          --zone=us-central1-f \
           --command="rm -rf /var/www/html/*"
 
         echo "Copiando nuevo código..."
-        gcloud compute scp --recurse * cloud-build:/var/www/html --zone=us-central1
+        gcloud compute scp --recurse * cloud-build:/var/www/html --zone=us-central1-f
 

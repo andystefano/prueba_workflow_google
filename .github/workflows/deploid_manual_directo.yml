@@ -31,4 +31,4 @@ jobs:
           gcloud builds submit \
             --config=cloudbuild_manual_directo.yaml \
             --no-source \
-            --region=us-central1
+            --region=us-central1-f
