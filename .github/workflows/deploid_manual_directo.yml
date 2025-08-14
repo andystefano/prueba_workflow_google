@@ -10,11 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Configurar gcloud
-        uses: google-github-actions/setup-gcloud@v1
+      - name: Google Auth
+        uses: google-github-actions/auth@v2
         with:
-          service_account_key: ${{ secrets.GCP_SECRET_CLOUD_BUILD_KEY }}
+          credentials_json: ${{ secrets.GCP_SECRET_CLOUD_BUILD_KEY }}
           project_id: ${{ vars.GCP_PROJECT_ID }}
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
 
       - name: Ejecutar Cloud Build
         run: |
