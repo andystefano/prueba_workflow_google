@@ -1,0 +1,44 @@
+name: Borrar tags antiguos automáticamente
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Lun–Vie 19:00 hora Chile aprox. (UTC-3 → 22:00 UTC). Si tu región difiere, cambia la hora UTC.
+    - cron: '0 22 * * 1-5'
+
+jobs:
+  delete-tags-older-than-one-month:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Borrar en remoto los tags con más de 1 mes
+        run: |
+          set -euo pipefail
+          git fetch --tags --force
+
+          CUTOFF=$(date -u -d '1 month ago' +%s)
+          echo "Umbral: tags con creatordate anterior a $(date -u -d @"$CUTOFF" --iso-8601=seconds) (UTC)"
+
+          deleted=0
+          mapfile -t taglines < <(git for-each-ref --format '%(creatordate:unix)%09%(refname:short)' refs/tags)
+
+          for line in "${taglines[@]}"; do
+            IFS=$'\t' read -r ts tag <<<"$line"
+            [ -z "${tag:-}" ] && continue
+            [[ "$ts" =~ ^[0-9]+$ ]] || continue
+            if [ "$ts" -lt "$CUTOFF" ]; then
+              echo "Eliminando tag antiguo: $tag (creatordate unix: $ts)"
+              git push origin ":refs/tags/$tag"
+              deleted=$((deleted + 1))
+            fi
+          done
+
+          echo "Total de tags eliminados en remoto: $deleted"
